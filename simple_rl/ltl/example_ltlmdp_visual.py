@@ -4,10 +4,16 @@
 from __future__ import print_function
 
 # Other imports.
-#import srl_example_setup
 from simple_rl.ltl.LTLGridWorldMDPClass import LTLGridWorldMDP
 from simple_rl.planning import ValueIteration
 from simple_rl.agents import QLearningAgent
+
+# Visualisation imports.
+from simple_rl.tasks.ltl_amdp.cleanup_block import CleanUpBlock
+from simple_rl.tasks.ltl_amdp.cleanup_door import CleanUpDoor
+from simple_rl.tasks.ltl_amdp.cleanup_room import CleanUpRoom
+from simple_rl.tasks.ltl_amdp.cleanup_task import CleanUpTask
+from simple_rl.tasks.ltl_amdp.CleanupMDPClass import CleanUpMDP
 
 def main():
     ap_map = {'a': (2,2),'b': (6,3), 'c': (5,3), 'd': (4,2)}
@@ -28,14 +34,7 @@ def main():
         print("\t", action_seq[i], state_seq[i])
 
 def ltl_visualiser(model):
-    print('Inside LTL visualiser!')
-
-    
-    from simple_rl.tasks.ltl_amdp.cleanup_block import CleanUpBlock
-    from simple_rl.tasks.ltl_amdp.cleanup_door import CleanUpDoor
-    from simple_rl.tasks.ltl_amdp.cleanup_room import CleanUpRoom
-    from simple_rl.tasks.ltl_amdp.cleanup_task import CleanUpTask
-    from simple_rl.tasks.ltl_amdp.CleanupMDPClass import CleanUpMDP
+    """3D grid world visualisation."""
 
     task = CleanUpTask("green", "red")
     room1 = CleanUpRoom("room1", [(x, y) for x in range(5) for y in range(3)], "blue")
@@ -48,7 +47,6 @@ def ltl_visualiser(model):
     mdp = CleanUpMDP(task, rooms=rooms, doors=doors, blocks=blocks)
     mdp.visualize_interaction(model)
 
-    '''
     #### testing old 2D visualisation
     from simple_rl.tasks.cleanup.cleanup_block import CleanUpBlock
     from simple_rl.tasks.cleanup.cleanup_door import CleanUpDoor
@@ -66,11 +64,10 @@ def ltl_visualiser(model):
     blocks = [block1, block2, block3]
     doors = [CleanUpDoor(4, 0), CleanUpDoor(3, 2)]
     mdp = CleanUpMDP(task, rooms=rooms, doors=doors, blocks=blocks)
-    #mdp.visualize_interaction()
-    #mdp.visualize_value()
-    '''
-
+    mdp.visualize_interaction()
+    mdp.visualize_value()
     return None
+
 if __name__ == "__main__":
     A = LTLGridWorldMDP()
     ltl_visualiser(A)
